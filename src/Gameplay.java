@@ -10,13 +10,14 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
     private ImageIcon imageTitle;
 
-    private int[] snakeXlenght = new int[750];
-    private int[] snakeYlenght = new int[750];
+    private int[] snakeXlenght = new int[100];
+    private int[] snakeYlenght = new int[100];
 
     private boolean left = false;
     private boolean right = false;
     private boolean up = false;
     private boolean down = false;
+
     private boolean isPlaying=true;
 
     private ImageIcon sUp;
@@ -43,7 +44,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     private int xpos = random.nextInt(verticalDivision);
     private int ypos = random.nextInt(horizontalDivision);
 
-    //private int score=0;
+
 
     public Gameplay()
     {
@@ -53,20 +54,13 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         setFocusTraversalKeysEnabled(false);
         timer = new Timer(delay,this);
         timer.start();
-
     }
     public void paint(Graphics graphics)
     {
         if (moves == 0)
         {
-          snakeXlenght[2] =50;
-          snakeXlenght[1] =75;
-          snakeXlenght[0]=100;
-
-          snakeYlenght[2] =100;
-          snakeYlenght[1] =100;
-          snakeYlenght[0]=100;
-
+            snakeXlenght[0]=100;
+            snakeYlenght[0]=100;
         }
         //draw image border
         graphics.setColor(Color.WHITE);
@@ -100,25 +94,25 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
             {
                 sRight = new ImageIcon("sRight.png");
                 sRight=getScaledImage(sRight, scaleX,scaleY);
-                sRight.paintIcon(this,graphics,snakeXlenght[i],snakeYlenght[i]);
+                sRight.paintIcon(this,graphics,snakeXlenght[0],snakeYlenght[0]);
             }
             if(i==0 && left)
             {
                 sLeft = new ImageIcon("sLeft.png");
                 sLeft=getScaledImage(sLeft, scaleX,scaleY);
-                sLeft.paintIcon(this,graphics,snakeXlenght[i],snakeYlenght[i]);
+                sLeft.paintIcon(this,graphics,snakeXlenght[0],snakeYlenght[0]);
             }
             if(i==0 && up)
             {
                 sUp = new ImageIcon("sUp.png");
                 sUp=getScaledImage(sUp, scaleX,scaleY);
-                sUp.paintIcon(this,graphics,snakeXlenght[i],snakeYlenght[i]);
+                sUp.paintIcon(this,graphics,snakeXlenght[0],snakeYlenght[0]);
             }
             if(i==0 && down)
             {
                 sDown = new ImageIcon("sDown.png");
                 sDown=getScaledImage(sDown, scaleX,scaleY);
-                sDown.paintIcon(this,graphics,snakeXlenght[i],snakeYlenght[i]);
+                sDown.paintIcon(this,graphics,snakeXlenght[0],snakeYlenght[0]);
             }
             if(i!=0)
             {
@@ -138,12 +132,14 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
             lenghtOfSnake++;
             xpos=random.nextInt(verticalDivision);
             ypos=random.nextInt(horizontalDivision);
+            if(delay>50) timer.setDelay(--delay);
         }
 
         sEnemy.paintIcon(this,graphics,tmpXpos,tmpYpos);
 
         for(int i=1;i<lenghtOfSnake;i++)
         {
+            //Game over
             if(snakeXlenght[i]==snakeXlenght[0] && snakeYlenght[i] == snakeYlenght[0])
             {
                 right = false;
