@@ -10,8 +10,8 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
     private ImageIcon imageTitle;
 
-    private int[] snakeXlenght = new int[100];
-    private int[] snakeYlenght = new int[100];
+    private int[] snakeXlenght = new int[782];
+    private int[] snakeYlenght = new int[782];
 
     private boolean left = false;
     private boolean right = false;
@@ -61,6 +61,18 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         {
             snakeXlenght[0]=100;
             snakeYlenght[0]=100;
+            sRight = new ImageIcon("sRight.png");
+            sRight=getScaledImage(sRight, scaleX,scaleY);
+            sLeft = new ImageIcon("sLeft.png");
+            sLeft=getScaledImage(sLeft, scaleX,scaleY);
+            sUp = new ImageIcon("sUp.png");
+            sUp=getScaledImage(sUp, scaleX,scaleY);
+            sDown = new ImageIcon("sDown.png");
+            sDown=getScaledImage(sDown, scaleX,scaleY);
+            s = new ImageIcon("s.png");
+            s=getScaledImage(s, scaleX,scaleY);
+            sEnemy = new ImageIcon("sEnemy.png");
+            sEnemy = getScaledImage(sEnemy,scaleX,scaleY);
         }
         //draw image border
         graphics.setColor(Color.WHITE);
@@ -92,37 +104,26 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         {
             if(i==0 && right)
             {
-                sRight = new ImageIcon("sRight.png");
-                sRight=getScaledImage(sRight, scaleX,scaleY);
                 sRight.paintIcon(this,graphics,snakeXlenght[0],snakeYlenght[0]);
             }
             if(i==0 && left)
             {
-                sLeft = new ImageIcon("sLeft.png");
-                sLeft=getScaledImage(sLeft, scaleX,scaleY);
                 sLeft.paintIcon(this,graphics,snakeXlenght[0],snakeYlenght[0]);
             }
             if(i==0 && up)
             {
-                sUp = new ImageIcon("sUp.png");
-                sUp=getScaledImage(sUp, scaleX,scaleY);
                 sUp.paintIcon(this,graphics,snakeXlenght[0],snakeYlenght[0]);
             }
             if(i==0 && down)
             {
-                sDown = new ImageIcon("sDown.png");
-                sDown=getScaledImage(sDown, scaleX,scaleY);
                 sDown.paintIcon(this,graphics,snakeXlenght[0],snakeYlenght[0]);
             }
             if(i!=0)
             {
-                s = new ImageIcon("s.png");
-                s=getScaledImage(s, scaleX,scaleY);
                 s.paintIcon(this,graphics,snakeXlenght[i],snakeYlenght[i]);
             }
         }
-        sEnemy = new ImageIcon("sEnemy.png");
-        sEnemy = getScaledImage(sEnemy,scaleX,scaleY);
+
 
         int tmpXpos= 25+(25*xpos);
         int tmpYpos= 75+(25*ypos);
@@ -169,94 +170,45 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         timer.start();
+        int x=0;
+        int y=0;
         if(isPlaying)
         {
-            if(right)
+            if(right) x=25;
+
+            else if(left) x=-25;
+
+            else if(down) y=25;
+
+            else if(up) y=-25;
+
+            for (int i=lenghtOfSnake;i>=0;i--)
             {
-                for(int i=lenghtOfSnake;i>=0;i--)
+                if(i==0)
                 {
-                    snakeYlenght[i+1]=snakeYlenght[i];
+                    snakeXlenght[i]+=x;
+                    snakeYlenght[i]+=y;
                 }
-                for (int i=lenghtOfSnake;i>=0;i--)
+                else
                 {
-                    if(i==0)
-                    {
-                        snakeXlenght[i]+=25;
-                    }
-                    else
-                    {
-                        snakeXlenght[i]=snakeXlenght[i-1];
-                    }
-                    if(snakeXlenght[i]>850)
-                    {
-                        snakeXlenght[i]=25;
-                    }
+                    snakeXlenght[i]=snakeXlenght[i-1];
+                    snakeYlenght[i]=snakeYlenght[i-1];
                 }
-            }
-            else if(left)
-            {
-                for(int i=lenghtOfSnake;i>=0;i--)
+                if(snakeXlenght[i]>850)
                 {
-                    snakeYlenght[i+1]=snakeYlenght[i];
+                    snakeXlenght[i]=25;
                 }
-                for (int i=lenghtOfSnake;i>=0;i--)
+                else  if(snakeXlenght[i]<25)
                 {
-                    if(i==0)
-                    {
-                        snakeXlenght[i]-=25;
-                    }
-                    else
-                    {
-                        snakeXlenght[i]=snakeXlenght[i-1];
-                    }
-                    if(snakeXlenght[i]<25)
-                    {
-                        snakeXlenght[i]=850;
-                    }
+                    snakeXlenght[i]=850;
                 }
-            }
-            else if(up)
-            {
-                for(int i=lenghtOfSnake;i>=0;i--)
+                else if(snakeYlenght[i]<75)
                 {
-                    snakeXlenght[i+1]=snakeXlenght[i];
+                    snakeYlenght[i]=625;
                 }
-                for (int i=lenghtOfSnake;i>=0;i--)
+                else if(snakeYlenght[i]>625)
                 {
-                    if(i==0)
-                    {
-                        snakeYlenght[i]-=25;
-                    }
-                    else
-                    {
-                        snakeYlenght[i]=snakeYlenght[i-1];
-                    }
-                    if(snakeYlenght[i]<75)
-                    {
-                        snakeYlenght[i]=625;
-                    }
-                }
-            }
-            else if(down)
-            {
-                for(int i=lenghtOfSnake;i>=0;i--)
-                {
-                    snakeXlenght[i+1]=snakeXlenght[i];
-                }
-                for (int i=lenghtOfSnake;i>=0;i--)
-                {
-                    if(i==0)
-                    {
-                        snakeYlenght[i]+=25;
-                    }
-                    else
-                    {
-                        snakeYlenght[i]=snakeYlenght[i-1];
-                    }
-                    if(snakeYlenght[i]>625)
-                    {
-                        snakeYlenght[i]=75;
-                    }
+                    snakeYlenght[i]=75;
                 }
             }
         }
